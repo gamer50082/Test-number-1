@@ -1,2 +1,3 @@
 0 Healthy
-1 Parkinson Diseased
+1 Dementia
+-
