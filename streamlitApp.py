@@ -14,24 +14,24 @@ np.set_printoptions(suppress=True)
 
 
 # Define the layout of the app
-st.set_page_config(page_title="Parkonix", page_icon=":medical_symbol:")
+st.set_page_config(page_title="testmodel1", page_icon=":medical_symbol:")
 
 st.title("Parkonix")
 
 st.header(
-    "Unveiling Parkinson's with Precision - 83% Accurate Detection Algorithm Trained on Spiral Sketches."
+    "Dementia Clock Test 90% accurate"
 )
 
 st.write(
-    "Try drawing a Spiral and watch how an AI Model will detect the Parkinson Disease."
+    "Try drawing a clock"
 )
 
 st.caption(
-    "The application will infer the one label out of 2 labels, as follows: Healthy, Parkinson Diseased."
+    "Detections available: Healthy, Dementia and empty"
 )
 
 st.warning(
-    "Warning: Do not click Submit Sketch button before drawing spiral on below Canvas."
+    "your drawing wouldnt be save so if you want to draw you can do it on another website/app"
 )
 
 with st.sidebar:
