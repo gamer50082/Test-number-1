@@ -1,3 +1,4 @@
 0 Healthy
 1 Dementia
 3 nothing
+4 Empty
