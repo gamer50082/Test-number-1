@@ -16,7 +16,7 @@ np.set_printoptions(suppress=True)
 # Define the layout of the app
 st.set_page_config(page_title="testmodel1", page_icon=":medical_symbol:")
 
-st.title("Parkonix")
+st.title("testmodel1")
 
 st.header(
     "Dementia Clock Test 90% accurate"
@@ -37,11 +37,11 @@ st.warning(
 with st.sidebar:
     img = Image.open("./Images/parkinson_disease_detection.jpg")
     st.image(img)
-    st.subheader("About Parkonix")
+    st.subheader("About testmodel1")
     link_text = "Distinguishing Different Stages of Parkinson’s Disease Using Composite Index of Speed and Pen-Pressure of Sketching a Spiral"
     link_url = "https://www.frontiersin.org/articles/10.3389/fneur.2017.00435/full"
     st.write(
-        "Parkinson's disease is a neurodegenerative disorder that affects motor functions, leading to tremors, stiffness, and impaired movement. The research presented in the article link mentioned below explores the use of spiral and wave sketch images to develop a robust algorithm for Parkinson's disease detection. Parkonix leverages these sketch images to train an AI model, achieving an impressive accuracy rate of 83%."
+        "Parkinson's disease is a neurodegenerative disorder that affects motor functions, leading to tremors, stiffness, and impaired movement. The research presented in the article link mentioned below explores the use of spiral and wave sketch images to develop a robust algorithm for Parkinson's disease detection. testmodel1 leverages these sketch images to train an AI model, achieving an impressive accuracy rate of 83%."
     )
     st.markdown(f"[{link_text}]({link_url})")
     st.header("Dataset")
