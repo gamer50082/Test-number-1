@@ -22,9 +22,9 @@ st.header("Dementia Clock Test 90% accurate")
 
 st.write("Try drawing a clock")
 
-st.caption("Detections available: Healthy, Dementia and empty")
+st.caption("Detections available: Healthy, Dementia, and empty")
 
-st.warning("your drawing wouldn't be saved, so if you want to draw you can do it on another website/app")
+st.warning("Your drawing wouldn't be saved, so if you want to draw, you can do it on another website/app")
 
 with st.sidebar:
     img = Image.open("./Images/parkinson_disease_detection.jpg")
@@ -51,28 +51,30 @@ bg_image = st.sidebar.file_uploader("Background image:", type=["png", "jpg"])
 
 realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
-# Split the layout into two columns
-col1, col2 = st.columns(2)
+# Create a two-column layout
+col1, col2 = st.columns([2, 1])
 
-# Define the canvas size
-canvas_size = 500  # Update the canvas size to 500 pixels
+# Define the canvas size and preview size
+drawing_canvas_size = 690
+preview_canvas_size = 300
 
+# Create the drawing canvas
 with col1:
-    # Create a canvas component
     st.subheader("Drawable Canvas")
     canvas_image = st_canvas(
         fill_color="rgba(255, 165, 0, 0.3)",
         stroke_width=stroke_width,
         stroke_color=stroke_color,
         background_color=bg_color,
-        width=canvas_size,
-        height=canvas_size,
+        width=drawing_canvas_size,
+        height=drawing_canvas_size,
         background_image=Image.open(bg_image) if bg_image else None,
         update_streamlit=realtime_update,
         drawing_mode=drawing_mode,
         key="canvas",
     )
 
+# Create the preview canvas
 with col2:
     st.subheader("Preview")
     if canvas_image.image_data is not None:
@@ -80,8 +82,7 @@ with col2:
         input_numpy_array = np.array(canvas_image.image_data)
         # Get the RGBA PIL image
         input_image = Image.fromarray(input_numpy_array.astype("uint8"), "RGBA")
-        st.image(input_image, use_column_width=True)
-
+        st.image(input_image, width=preview_canvas_size, use_column_width=True)
  
 
 def generate_user_input_filename():
