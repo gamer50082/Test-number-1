@@ -63,7 +63,7 @@ realtime_update = st.sidebar.checkbox("Update in realtime", True)
 col1, col2 = st.columns(2)
 
 # Define the canvas size
-canvas_size = 690
+canvas_size = 345
 
 with col1:
     # Create a canvas component
