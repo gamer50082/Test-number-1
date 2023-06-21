@@ -82,4 +82,99 @@ with col2:
         input_image = Image.fromarray(input_numpy_array.astype("uint8"), "RGBA")
         st.image(input_image, use_column_width=True)
 
-# Rest of your code...
+ 
+
+def generate_user_input_filename():
+    unique_id = uuid.uuid4().hex
+    filename = f"user_input_{unique_id}.png"
+    return filename
+
+
+def predict_parkinsons(img_path):
+    best_model = load_model("./keras_model.h5", compile=False)
+
+    # Load the labels
+    class_names = open("labels.txt", "r").readlines()
+
+    # Create the array of the right shape to feed into the keras model
+    # The 'length' or number of images you can put into the array is
+    # determined by the first position in the shape tuple, in this case 1
+    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+
+    # Get the numpy array (4-channel RGBA 100,100,4)
+    input_numpy_array = np.array(img_path.image_data)
+
+    # Get the RGBA PIL image
+    input_image = Image.fromarray(input_numpy_array.astype("uint8"), "RGBA")
+
+    # Generate a unique filename for the user input
+    user_input_filename = generate_user_input_filename()
+
+    # Save the image with the generated filename
+    input_image.save(user_input_filename)
+    print("Image Saved!")   
+
+    # Replace this with the path to your image
+    image = Image.open(user_input_filename).convert("RGB")
+
+    # resizing the image to be at least 224x224 and then cropping from the center
+    size = (224, 224)
+    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+
+    # turn the image into a numpy array
+    image_array = np.asarray(image)
+
+    # Normalize the image
+    normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
+
+    # Load the image into the array
+    data[0] = normalized_image_array
+
+    # Predicts the model
+    prediction = best_model.predict(data)
+    index = np.argmax(prediction)
+    class_name = class_names[index]
+    confidence_score = prediction[0][index]
+
+    Detection_Result = f"The model has detected {class_name[2:]}, with Confidence Score: {str(np.round(confidence_score * 100))[:-2]}%."
+    os.remove(user_input_filename)
+    print("Image Removed!")
+    return Detection_Result, prediction
+
+
+submit = st.button(label="Submit Sketch")
+if submit:
+    st.subheader("Output")
+    classified_label, prediction = predict_parkinsons(canvas_image)
+    with st.spinner(text="This may take a moment..."):
+        st.write(classified_label)
+
+        class_names = open("labels.txt", "r").readlines()
+
+        data = {
+            "Class": class_names,
+            "Confidence Score": prediction[0],
+        }
+
+        df = pd.DataFrame(data)
+
+        df["Confidence Score"] = df["Confidence Score"].apply(
+            lambda x: f"{str(np.round(x*100))[:-2]}%"
+        )
+
+        df["Class"] = df["Class"].apply(lambda x: x.split(" ")[1])
+
+        st.subheader("Confidence Scores on other classes:")
+        st.write(df)
+
+footer = """
+<div style="text-align: center; font-size: medium; margin-top:50px;">
+    If you find Parkonix useful or interesting, please consider starring it on GitHub.
+    <hr>
+    <a href="https://github.com/SaiJeevanPuchakayala/Parkonix" target="_blank">
+    <img src="https://img.shields.io/github/stars/SaiJeevanPuchakayala/Parkonix.svg?style=social" alt="GitHub stars">
+  </a>
+</div>
+"""
+
+st.markdown(footer, unsafe_allow_html=True)
