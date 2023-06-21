@@ -52,7 +52,7 @@ bg_image = st.sidebar.file_uploader("Background image:", type=["png", "jpg"])
 realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
 # Create a two-column layout
-col1, col2 = st.columns([2, 1])
+col1, col2 = st.beta_columns(2)
 
 # Define the canvas size and preview size
 drawing_canvas_size = 690
@@ -83,6 +83,7 @@ with col2:
         # Get the RGBA PIL image
         input_image = Image.fromarray(input_numpy_array.astype("uint8"), "RGBA")
         st.image(input_image, width=preview_canvas_size, use_column_width=True)
+
  
 
 def generate_user_input_filename():
